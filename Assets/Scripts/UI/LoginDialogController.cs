@@ -32,7 +32,7 @@ public class LoginDialogController : MonoBehaviour
     private TextField passwordField;
     private Button submitButton;
     private Button cancelButton;
-    private Label errorLabel; // Added for error display
+    private Label errorLabel;
 
     public string EnteredUsername { get; private set; }
     public string EnteredPassword { get; private set; }
@@ -64,9 +64,7 @@ public class LoginDialogController : MonoBehaviour
             Debug.LogWarning("LoginDialogController: errorLabel not found, errors will be logged to console only");
         }
 
-        // Enable password masking
         passwordField.isPasswordField = true;
-
         Debug.Log("LoginDialogController: Registering button events");
         submitButton.clicked += OnSubmit;
         cancelButton.clicked += OnCancel;
@@ -74,12 +72,11 @@ public class LoginDialogController : MonoBehaviour
 
     private void OnSubmit()
     {
-        Debug.Log("Submit button clicked");
+        Debug.Log("LoginDialogController: Submit button clicked");
         EnteredUsername = usernameField.value;
         EnteredPassword = passwordField.value;
-        Debug.Log($"Stored credentials: Username={EnteredUsername}, Password={EnteredPassword}");
+        Debug.Log($"LoginDialogController: Attempting login with Username={EnteredUsername}");
 
-        // Validate input
         if (string.IsNullOrEmpty(EnteredUsername) || string.IsNullOrEmpty(EnteredPassword))
         {
             DisplayError("Username and password are required");
@@ -105,7 +102,7 @@ public class LoginDialogController : MonoBehaviour
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            Debug.Log("Sending login request to " + BackendUrl);
+            Debug.Log("LoginDialogController: Sending login request to " + BackendUrl);
             yield return request.SendWebRequest();
 
             if (request.result != UnityWebRequest.Result.Success)
@@ -120,28 +117,39 @@ public class LoginDialogController : MonoBehaviour
                 {
                     errorMessage = $"Login error: {request.error} (Code: {request.responseCode})";
                 }
-                Debug.LogError(errorMessage);
+                Debug.LogError($"LoginDialogController: {errorMessage}");
                 DisplayError(errorMessage);
                 yield break;
             }
 
             var response = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
-            Debug.Log($"Login successful: Token={response.token}, UserId={response.user.userId}, UserName={response.user.userName}");
+            Debug.Log($"LoginDialogController: Login successful: Token={response.token}, UserId={response.user.userId}, UserName={response.user.userName}");
 
-            // Store credentials
+            // Store credentials in PlayerPrefs
             PlayerPrefs.SetString("token", response.token);
             PlayerPrefs.SetString("userId", response.user.userId);
             PlayerPrefs.SetString("userName", response.user.userName);
             PlayerPrefs.Save();
 
+            // Set GameManager current user
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.SetCurrentUser(response.user.userId);
+                Debug.Log($"LoginDialogController: Set GameManager.currentUserId to {response.user.userId}");
+            }
+            else
+            {
+                Debug.LogError("LoginDialogController: GameManager.Instance is null during login");
+            }
+
             uiManager.HideLoginDialog();
-            uiManager.OnLoginSuccess(response.user.userName); // Notify UI manager of successful login
+            uiManager.OnLoginSuccess(response.user.userName);
         }
     }
 
     private void OnCancel()
     {
-        Debug.Log("Cancel button clicked");
+        Debug.Log("LoginDialogController: Cancel button clicked");
         uiManager.HideLoginDialog();
     }
 
@@ -150,11 +158,11 @@ public class LoginDialogController : MonoBehaviour
         if (errorLabel != null)
         {
             errorLabel.text = message;
-            errorLabel.style.display = DisplayStyle.Flex; // Show error label
+            errorLabel.style.display = DisplayStyle.Flex;
         }
         else
         {
-            Debug.LogError($"Error: {message}");
+            Debug.LogError($"LoginDialogController: Error: {message}");
         }
     }
 
@@ -162,8 +170,6 @@ public class LoginDialogController : MonoBehaviour
     {
         if (submitButton != null) submitButton.clicked -= OnSubmit;
         if (cancelButton != null) cancelButton.clicked -= OnCancel;
-        if (uiManager != null)
-            uiManager.OnDialogInitialized -= Initialize;
     }
 }
 

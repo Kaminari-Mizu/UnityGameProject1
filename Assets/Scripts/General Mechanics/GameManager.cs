@@ -31,6 +31,17 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             Debug.Log("GameManager: Initialized singleton instance");
+
+            // Restore login state from PlayerPrefs
+            if (PlayerPrefs.HasKey("userId"))
+            {
+                string userId = PlayerPrefs.GetString("userId");
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    SetCurrentUser(userId);
+                    Debug.Log($"GameManager: Restored userId {userId} from PlayerPrefs");
+                }
+            }
         }
         else
         {

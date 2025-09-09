@@ -86,13 +86,26 @@ public class PauseMenuController : MonoBehaviour
         {
             saveButton.clicked += () =>
             {
-                if (GameManager.Instance != null && player != null)
+                if (GameManager.Instance == null)
                 {
-                    GameManager.Instance.SaveGame(player);
+                    Debug.LogError("PauseMenuController: GameManager.Instance is null");
+                    return;
+                }
+                if (player == null)
+                {
+                    Debug.LogError("PauseMenuController: Player GameObject is null");
+                    return;
+                }
+                string saveName = $"Save_{System.DateTime.Now:yyyyMMdd_HHmmss}"; // Unique save name
+                if (GameManager.Instance.SaveGame(player, out string fileName, saveName))
+                {
+                    Debug.Log($"PauseMenuController: Saved game successfully as {fileName}");
+                    // TODO: Show UI feedback (e.g., "Game Saved!")
                 }
                 else
                 {
-                    Debug.LogError("PauseMenuController: GameManager or Player is null");
+                    Debug.LogError("PauseMenuController: Failed to save game");
+                    // TODO: Show UI error (e.g., "Save failed - please log in")
                 }
             };
         }
