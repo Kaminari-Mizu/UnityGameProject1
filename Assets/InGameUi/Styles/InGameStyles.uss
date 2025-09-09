@@ -1,0 +1,11 @@
+#HealthBar .unity-progress-bar__progress {
+	background-color: green;
+}
+
+#ManaBar .unity-progress-bar__progress {
+	background-color: blue;
+}
+
+#SanityBar .unity-progress-bar__progress {
+	background-color: red;
+}

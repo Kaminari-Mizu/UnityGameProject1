@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/InGameUi/Styles/PauseMenu.uss?fileID=7433441132597879392&amp;guid=5da67235463f44444b48308279f45054&amp;type=3#PauseMenu" />
+    <ui:VisualElement name="pauseMenu" class="pause-menu" style="flex-grow: 1;">
+        <ui:VisualElement name="background" class="background" style="flex-grow: 1; top: -252px;" />
+        <ui:VisualElement name="content" class="content" style="flex-grow: 1; left: -649px; top: -252px;">
+            <ui:Label text="PAUSED" name="pauseTitle" />
+            <ui:Button text="Resume" name="resumeButton" />
+            <ui:Button text="Save" name="saveButton" emoji-fallback-support="true" />
+            <ui:Button text="Quit" name="quitButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

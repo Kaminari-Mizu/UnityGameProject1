@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/InGameUi/Styles/LoginDialog.uss?fileID=7433441132597879392&amp;guid=d88bc82c82b773b43b3e44483cce4a91&amp;type=3#LoginDialog" />
+    <ui:VisualElement name="loginDialog" class="login-dialog" style="flex-grow: 1; display: flex; top: 261px; left: 686px;">
+        <ui:Label text="Login" name="LoginLabel" class="title" style="white-space: pre; -unity-text-align: upper-center;" />
+        <ui:TextField label="username" placeholder-text="Enter email" hide-placeholder-on-focus="true" name="usernameField" style="align-items: center; justify-content: space-around; align-self: stretch;" />
+        <ui:TextField label="password" placeholder-text="Enter password" password="true" hide-placeholder-on-focus="true" name="passwordField" />
+        <ui:Button text="Submit" name="Submit" class="dialog-button" style="width: 100px; right: -30px; top: 10px;" />
+        <ui:Button text="Cancel" name="Cancel" class="dialog-button" style="width: 100px; right: -150px; position: relative; top: -40px;" />
+    </ui:VisualElement>
+    <ui:Label text="Label" name="errorLabel" style="position: absolute; right: -358px; top: 365px; display: none;" />
+</ui:UXML>

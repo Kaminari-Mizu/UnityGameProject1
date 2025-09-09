@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/InGameUi/Styles/InGameStyles.uss?fileID=7433441132597879392&amp;guid=acc4d818095edb543994a33480507198&amp;type=3#InGameStyles" />
+    <ui:ProgressBar value="500" title="health" name="HealthBar" high-value="500" style="width: 132px; height: 24px; align-self: flex-start;" />
+    <ui:ProgressBar value="250" title="mana" name="ManaBar" high-value="250" style="width: 79px;" />
+</ui:UXML>
