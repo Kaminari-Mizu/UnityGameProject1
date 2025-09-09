@@ -2,10 +2,10 @@
     <Style src="project://database/Assets/InGameUi/Styles/MainMenu.uss?fileID=7433441132597879392&amp;guid=f2c8037fe639f334096b455697c0ab6d&amp;type=3#MainMenu" />
     <Style src="project://database/Assets/InGameUi/Styles/LoginDialog.uss?fileID=7433441132597879392&amp;guid=d88bc82c82b773b43b3e44483cce4a91&amp;type=3#LoginDialog" />
     <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/InGameUi/Styles/mainmenu.png?fileID=2800000&amp;guid=a0edd3dedb1ebd04e8baa7f058972f5e&amp;type=3#mainmenu&quot;); position: relative;">
-        <ui:Button text="Start" name="StartButton" style="height: 50px; width: 200px; -unity-text-align: middle-center; right: auto; left: 45%; top: 65%; background-color: rgb(63, 111, 109);" />
+        <ui:Button text="Start" name="StartButton" style="height: 50px; width: 200px; -unity-text-align: middle-center; right: auto; left: 45%; top: 67%; background-color: rgb(63, 111, 109);" />
         <ui:Button text="Login" name="LoginButton" style="height: 50px; width: 200px; -unity-text-align: middle-center; right: auto; left: 45%; top: 50%; background-color: rgb(63, 111, 109);" />
         <ui:Button text="Exit&#10;" name="QuitButton" style="width: 200px; height: 50px; left: 45%; top: 68%; background-color: rgb(63, 111, 109); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
-        <ui:Button text="Load" name="LoadButton" style="width: 200px; left: 612px; top: 425px; height: 50px; background-color: rgb(63, 111, 109);" />
+        <ui:Button text="Load" name="LoadButton" style="width: 200px; left: 45%; top: 50%; height: 50px; background-color: rgb(63, 111, 109);" />
         <ui:Label text="HORROR ARPG" style="height: 68px; white-space: pre; -unity-text-align: upper-center; -unity-background-image-tint-color: rgb(56, 56, 56); -unity-font-definition: url(&quot;project://database/Assets/HDRP%20Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Electronic%20Highway%20Sign.TTF?fileID=12800000&amp;guid=8a2b9e2a607dd2143b58c44bc32410b4&amp;type=3#Electronic Highway Sign&quot;); -unity-font-style: bold; font-size: 35px; color: rgb(75, 176, 139);" />
         <ui:VisualElement name="modalOverlay" enabled="true" class="modal-overlay" style="flex-grow: 1; flex-direction: column; display: flex; overflow: visible; position: relative;" />
     </ui:VisualElement>

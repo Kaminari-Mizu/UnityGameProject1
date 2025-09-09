@@ -1,19 +1,57 @@
+/* MainMenu.uss */
+
+/* Root styling (already present) */
 :root {
     flex-grow: 1;
 }
 
-#StartButton .unity-button {
-	width: 200px;
-	margin: 10px;
-	color: white;
+/* Button base styling for all buttons */
+.unity-button {
+    font-size: 16px;
+    border-radius: 5px;
+    margin: 10px; /* Matches your CSS, applies to all buttons */
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
+/* Specific button styling */
+#StartButton .unity-button,
+#LoginButton .unity-button,
+#QuitButton .unity-button,
+#LoadButton .unity-button {
+    width: 200px;
+    height: 50px;
+    background-color: #3f6f6d; /* rgb(63, 111, 109) */
+    color: #d5d7e0; /* Matches your primary text color */
+    -unity-text-align: middle-center;
+    position: absolute;
+    left: 45%;
+}
+
+/* Hover and active states */
+#StartButton .unity-button:hover,
+#LoginButton .unity-button:hover,
+#QuitButton .unity-button:hover,
+#LoadButton .unity-button:hover {
+    background-color: #355f5d; /* Darker shade */
+    transform: scale(1.05);
+}
+
+#StartButton .unity-button:active,
+#LoginButton .unity-button:active,
+#QuitButton .unity-button:active,
+#LoadButton .unity-button:active {
+    transform: scale(0.95);
+}
+
+/* QuitButton specific radius (preserve its unique style) */
 #QuitButton .unity-button {
-	width: 200px;
-	margin: 10px;
-	color: white;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
+/* Modal overlay (already present) */
 .modal-overlay {
     position: absolute;
     top: 0;
