@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="saveLoadDialog">
+        <ui:Label text="Select Save File" />
+        <ui:ListView name="SaveList" />
+        <ui:VisualElement>
+            <ui:Button name="LoadButton" text="Load" />
+            <ui:Button name="DeleteButton" text="Delete" />
+            <ui:Button name="CancelButton" text="Cancel" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
