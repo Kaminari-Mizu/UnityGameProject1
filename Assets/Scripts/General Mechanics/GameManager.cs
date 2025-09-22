@@ -89,59 +89,38 @@ public class GameManager : MonoBehaviour
     //Save the game for the current user, optional saveName
     public bool SaveGame(GameObject player, out string outFileName, string saveName = null)
     {
-        
         outFileName = null;
 
-        if(string.IsNullOrEmpty(currentUserId))
+        if (string.IsNullOrEmpty(currentUserId))
         {
             Debug.LogWarning("GameManager: Cannot save — no user logged in.");
             return false;
         }
 
-        if(player == null)
+        if (player == null)
         {
             Debug.LogError("GameManager: Player GameObject is null");
             return false;
         }
 
-        var playerMovement = player.GetComponent<PlayerMovement>();
-        var underwaterMovement = player.GetComponent<UnderwaterMovement>();
-        var physicalAttack = player.GetComponent<PhysicalAttackController>();
-        var magicalAttack = player.GetComponent<MagicalAttackController>();
-        var playerStats = player.GetComponent<PlayerStats>() ?? FindFirstObjectByType<PlayerStats>();
-
-        if (!playerMovement || !underwaterMovement || !physicalAttack || !magicalAttack || !playerStats)
+        var playerStats = player.GetComponent<PlayerStats>();
+        if (playerStats == null)
         {
-            Debug.LogError($"GameManager: Missing required player components - " +
-                $"PlayerMovement: {(playerMovement ? "found" : "null")}, " +
-                $"UnderwaterMovement: {(underwaterMovement ? "found" : "null")}, " +
-                $"PhysicalAttackController: {(physicalAttack ? "found" : "null")}, " +
-                $"MagicalAttackController: {(magicalAttack ? "found" : "null")}, " +
-                $"PlayerStats: {(playerStats ? $"found on {playerStats.gameObject.name}" : "null")}");
+            Debug.LogError("GameManager: PlayerStats component not found on player");
             return false;
         }
 
         SaveData data = new SaveData
         {
             saveName = saveName,
-            sceneName = SceneManager.GetActiveScene().name,
-            playerPosition = player.transform.position,
-            isRunning = playerMovement.GetComponentInChildren<Animator>().GetBool("IsRunning"),
-            isSwimming = underwaterMovement.isSwimming,
-            isFloating = underwaterMovement.GetComponentInChildren<Animator>().GetBool("IsFloating"),
-            isPhysicalAttacking = physicalAttack.isAttacking,
-            physicalComboIndex = physicalAttack.GetComponentInChildren<Animator>().GetInteger("ComboIndex"),
-            isMagicalAttacking = magicalAttack.isAttacking,
-            magicalComboIndex = magicalAttack.GetComponentInChildren<Animator>().GetInteger("ComboIndex"),
-            health = playerStats.currentHealth,
-            mana = playerStats.currentMana,
+            sceneName = SceneManager.GetActiveScene().name
         };
+        playerStats.SaveState(data);
 
         var ok = SaveSystem.SaveGame(currentUserId, data, out outFileName);
         if (ok) Debug.Log($"GameManager: Game saved as {outFileName}");
         return ok;
     }
-
     //overload wihtout out param
     public bool SaveGame(GameObject player, string saveName = null)
     {

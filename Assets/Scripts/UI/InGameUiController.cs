@@ -4,12 +4,18 @@ using System.Collections;
 
 public class InGameUiController : MonoBehaviour
 {
-    private ProgressBar healthbar;
-    private ProgressBar manabar;
+    public ProgressBar healthbar;
+    public ProgressBar manabar;
+    private PlayerStats playerStats;
 
     void Start()
     {
         StartCoroutine(InitializeUI());
+        playerStats = FindFirstObjectByType<PlayerStats>(); // Find PlayerStats dynamically
+        if (playerStats == null)
+        {
+            Debug.LogError("InGameUiController: PlayerStats not found");
+        }
     }
 
     private IEnumerator InitializeUI()
@@ -72,13 +78,15 @@ public class InGameUiController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H) && playerStats != null)
         {
-            UpdateHealth(250f, 500f);
+            playerStats.currentHealth = 250f; // Set to half
+            UpdateHealth(playerStats.currentHealth, playerStats.maxHealth);
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && playerStats != null)
         {
-            UpdateMana(125f, 250f);
+            playerStats.currentMana = 125f; // Set to half
+            UpdateMana(playerStats.currentMana, playerStats.maxMana);
         }
     }
 

@@ -19,49 +19,64 @@ public class PlayerStats : MonoBehaviour
 
     private IEnumerator InitializeUIController()
     {
-        const int maxRetries = 5;
-        const float retryDelay = 0.1f;
-        for (int i = 0; i < maxRetries; i++)
+        if (uiController == null)
         {
-            if (uiController == null)
+            uiController = FindFirstObjectByType<InGameUiController>();
+            if (uiController != null)
             {
-                uiController = FindFirstObjectByType<InGameUiController>();
-                if (uiController != null)
-                {
-                    Debug.Log($"PlayerStats: InGameUiController found dynamically: {uiController.gameObject.name}");
-                    yield return StartCoroutine(TryUpdateUI());
-                    yield break;
-                }
-                else
-                {
-                    Debug.LogWarning($"PlayerStats: InGameUiController not found (attempt {i + 1}/{maxRetries})");
-                }
+                Debug.Log($"PlayerStats: InGameUiController found dynamically: {uiController.gameObject.name} at {System.DateTime.Now:HH:mm:ss} SAST");
             }
             else
             {
-                Debug.Log($"PlayerStats: InGameUiController assigned in Inspector: {uiController.gameObject.name}");
-                yield return StartCoroutine(TryUpdateUI());
+                Debug.LogError("PlayerStats: Failed to find InGameUiController at {System.DateTime.Now:HH:mm:ss} SAST");
                 yield break;
             }
-            yield return new WaitForSecondsRealtime(retryDelay);
         }
-        Debug.LogError("PlayerStats: Failed to find InGameUiController after retries");
+        else
+        {
+            Debug.Log($"PlayerStats: InGameUiController assigned in Inspector: {uiController.gameObject.name} at {System.DateTime.Now:HH:mm:ss} SAST");
+        }
+        InitializeUI();
     }
 
-    private IEnumerator TryUpdateUI()
+    private void InitializeUI()
     {
-        const int maxRetries = 5;
-        const float retryDelay = 0.1f;
-        for (int i = 0; i < maxRetries; i++)
+        if (uiController != null)
         {
-            if (uiController != null)
-            {
-                UpdateUI();
-                yield break; // Rely on InGameUiController's error logging
-            }
-            yield return new WaitForSecondsRealtime(retryDelay);
+            UpdateUI();
         }
-        Debug.LogError("PlayerStats: Failed to update UI after retries");
+        else
+        {
+            Debug.LogWarning("PlayerStats: Cannot initialize UI, InGameUiController is null at {System.DateTime.Now:HH:mm:ss} SAST");
+        }
+    }
+
+    public void SaveState(SaveData data)
+    {
+        data.health = currentHealth;
+        data.mana = currentMana;
+        data.playerPosition = transform.position;
+        var animator = GetComponent<PlayerMovement>()?.modelTransform.GetComponent<Animator>();
+        var underwaterMovement = GetComponent<UnderwaterMovement>();
+        var physicalAttack = GetComponent<PhysicalAttackController>();
+        var magicalAttack = GetComponent<MagicalAttackController>();
+
+        if (animator != null)
+        {
+            data.isRunning = animator.GetBool("IsRunning");
+            data.isFloating = animator.GetBool("IsFloating");
+        }
+        else
+        {
+            Debug.LogWarning("PlayerStats: Animator not found for saving state");
+        }
+        data.isSwimming = underwaterMovement?.isSwimming ?? false;
+        data.isPhysicalAttacking = physicalAttack?.isAttacking ?? false;
+        data.physicalComboIndex = animator?.GetInteger("ComboIndex") ?? 0;
+        data.isMagicalAttacking = magicalAttack?.isAttacking ?? false;
+        data.magicalComboIndex = animator?.GetInteger("ComboIndex") ?? 0;
+
+        Debug.Log($"PlayerStats: Saved state - Health={data.health}, Mana={data.mana}, Position={data.playerPosition}");
     }
 
     public void LoadState(SaveData data)
@@ -69,10 +84,9 @@ public class PlayerStats : MonoBehaviour
         currentHealth = data.health;
         currentMana = data.mana;
 
-        // Update position safely
         if (characterController != null)
         {
-            characterController.enabled = false; // Disable to set position
+            characterController.enabled = false;
             transform.position = data.playerPosition;
             characterController.enabled = true;
             Debug.Log($"PlayerStats: Set position to {data.playerPosition}");
@@ -83,7 +97,6 @@ public class PlayerStats : MonoBehaviour
             Debug.LogWarning("PlayerStats: CharacterController not found, set position directly");
         }
 
-        // Update animation states
         var playerMovement = GetComponent<PlayerMovement>();
         var underwaterMovement = GetComponent<UnderwaterMovement>();
         var physicalAttack = GetComponent<PhysicalAttackController>();
@@ -92,21 +105,14 @@ public class PlayerStats : MonoBehaviour
 
         if (!playerMovement || !underwaterMovement || !physicalAttack || !magicalAttack || !animator)
         {
-            Debug.LogError($"PlayerStats: Missing required components for loading state - " +
-                $"PlayerMovement: {(playerMovement ? "found" : "null")}, " +
-                $"UnderwaterMovement: {(underwaterMovement ? "found" : "null")}, " +
-                $"PhysicalAttackController: {(physicalAttack ? "found" : "null")}, " +
-                $"MagicalAttackController: {(magicalAttack ? "found" : "null")}, " +
-                $"Animator: {(animator ? "found" : "null")}");
+            Debug.LogError("PlayerStats: Missing required components for loading state");
             return;
         }
 
-        // Set movement and swimming states
         animator.SetBool("IsRunning", data.isRunning);
         animator.SetBool("IsSwimming", data.isSwimming);
         animator.SetBool("IsFloating", data.isFloating);
 
-        // Set attack states
         physicalAttack.isAttacking = data.isPhysicalAttacking;
         animator.SetInteger("ComboIndex", data.physicalComboIndex);
         animator.SetLayerWeight(animator.GetLayerIndex("Physical Layer"), data.isPhysicalAttacking ? 1f : 0f);
@@ -128,11 +134,28 @@ public class PlayerStats : MonoBehaviour
             animator.SetTrigger("MagicAttack");
         }
 
-        // Update swimming state
         underwaterMovement.isSwimming = data.isSwimming;
+        StartCoroutine(UpdateUIAfterLoad(data.health, data.mana));
+        Debug.Log($"Player state loaded: Position={data.playerPosition}, Health={data.health}, Mana={data.mana}");
+    }
 
-        StartCoroutine(TryUpdateUI());
-        Debug.Log($"Player state loaded: Position={data.playerPosition}, Health={data.health}, Mana={data.mana}, IsRunning={data.isRunning}, IsSwimming={data.isSwimming}, PhysicalAttack={data.isPhysicalAttacking}, MagicalAttack={data.isMagicalAttacking}");
+    private IEnumerator UpdateUIAfterLoad(float health, float mana)
+    {
+        const int maxRetries = 10;
+        const float retryDelay = 0.2f;
+        for (int i = 0; i < maxRetries; i++)
+        {
+            if (uiController != null && uiController.healthbar != null && uiController.manabar != null)
+            {
+                uiController.UpdateHealth(health, maxHealth);
+                uiController.UpdateMana(mana, maxMana);
+                Debug.Log($"PlayerStats: UI updated to Health={health}/{maxHealth}, Mana={mana}/{maxMana}");
+                yield break;
+            }
+            Debug.LogWarning($"PlayerStats: Waiting for UI initialization (attempt {i + 1}/{maxRetries})");
+            yield return new WaitForSecondsRealtime(retryDelay);
+        }
+        Debug.LogError("PlayerStats: Failed to update UI after retries");
     }
 
     void UpdateUI()
