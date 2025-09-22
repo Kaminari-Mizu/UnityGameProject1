@@ -9,6 +9,9 @@ public class UiManager : MonoBehaviour
     private VisualElement loginDialog;
     private LoginDialogController loginController;
     public Action<VisualElement> OnDialogInitialized { get; set; } // Updated delegate
+    [SerializeField] private VisualTreeAsset saveLoadDialogAsset; // Assign 'LoadSaveDialog.uxml' in Inspector
+    private VisualElement saveLoadDialog;
+    private SaveLoadDialogController saveLoadController;
 
     public void Initialize(VisualElement root)
     {
@@ -50,6 +53,27 @@ public class UiManager : MonoBehaviour
         // Notify subscribers that initialization is complete
         Debug.Log("UiManager: Invoking OnDialogInitialized");
         OnDialogInitialized?.Invoke(loginDialog);
+
+        // Initialize Save/Load Dialog
+        if (saveLoadDialogAsset == null)
+        {
+            Debug.LogWarning("UiManager: SaveLoadDialogAsset is not assigned");
+            return;
+        }
+        saveLoadDialog = saveLoadDialogAsset.Instantiate().Q<VisualElement>("saveLoadDialog");
+        if (saveLoadDialog == null)
+        {
+            Debug.LogError("UiManager: Failed to find saveLoadDialog in instantiated UXML");
+            return;
+        }
+        GameObject saveDialogGameObject = new GameObject("SaveLoadDialog");
+        saveLoadController = saveDialogGameObject.AddComponent<SaveLoadDialogController>();
+        // Set uiManager via reflection (matching your login setup)
+        saveLoadController.GetType().GetField("uiManager", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(saveLoadController, this);
+        saveLoadController.Initialize(saveLoadDialog);
+        modalOverlay.Add(saveLoadDialog);
+        saveLoadDialog.style.display = DisplayStyle.None;
+        Debug.Log("UiManager: Save/Load dialog initialized");
     }
 
     public void ShowLoginDialog()
@@ -84,5 +108,31 @@ public class UiManager : MonoBehaviour
         //var welcomeLabel = // Find VisualElement for welcome message
         //if (welcomeLabel != null)
         //    welcomeLabel.text = $"Welcome, {userName}!";
+    }
+
+    public void ShowSaveLoadDialog()
+    {
+        if (modalOverlay == null || saveLoadDialog == null || saveLoadController == null)
+        {
+            Debug.LogError("UiManager: Cannot show save/load dialog - modalOverlay, saveLoadDialog, or saveLoadController is null");
+            return;
+        }
+        Debug.Log("UiManager: Showing save/load dialog");
+        modalOverlay.style.display = DisplayStyle.Flex;
+        saveLoadDialog.style.display = DisplayStyle.Flex;
+        loginDialog.style.display = DisplayStyle.None; // Ensure login is hidden
+        saveLoadController.RefreshSaveList(); // Refresh list when shown
+    }
+
+    public void HideSaveLoadDialog()
+    {
+        if (modalOverlay == null || saveLoadDialog == null)
+        {
+            Debug.LogError("UiManager: Cannot hide save/load dialog - modalOverlay or saveLoadDialog is null");
+            return;
+        }
+        Debug.Log("UiManager: Closing save/load dialog");
+        modalOverlay.style.display = DisplayStyle.None;
+        saveLoadDialog.style.display = DisplayStyle.None;
     }
 }

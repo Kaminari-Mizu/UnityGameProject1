@@ -425,6 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginDialogAsset: {fileID: 9197481963319205126, guid: c67008f59c4706648b69bf9aa13fd9ed, type: 3}
+  saveLoadDialogAsset: {fileID: 9197481963319205126, guid: b3e754945f728a74ba3dce916758275d, type: 3}
 --- !u!4 &1378064471
 Transform:
   m_ObjectHideFlags: 0

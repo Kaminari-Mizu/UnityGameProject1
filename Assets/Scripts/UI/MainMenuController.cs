@@ -78,21 +78,8 @@ public class MainMenuController : MonoBehaviour
                     uiManager.ShowLoginDialog();
                     return;
                 }
-
-                if (!GameManager.Instance.HasSavesForCurrentUser())
-                {
-                    Debug.LogWarning("MainMenuController: No save files available for current user.");
-                    // TODO: Show UI message (e.g., "No saves found")
-                    return;
-                }
-
-                var saveMetas = GameManager.Instance.GetSaveListForCurentUser();
-                if (saveMetas.Count > 0)
-                {
-                    var latestSaveMeta = saveMetas[0]; // Latest due to timestamp sorting
-                    Debug.Log($"MainMenuController: Loading save: {latestSaveMeta.fileName}");
-                    GameManager.Instance.LoadSaveAndStart(latestSaveMeta.fileName);
-                }
+                Debug.Log("MainMenuController: Showing save/load dialog");
+                uiManager.ShowSaveLoadDialog();
             };
         }
 
