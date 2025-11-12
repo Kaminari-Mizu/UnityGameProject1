@@ -27,7 +27,6 @@ It also highlights how different technologies can work together and serves as an
 
 ## 🔗 Related Repositories
 
-- 🎮 [Unity Game](https://github.com/Kaminari-Mizu/UnityGameProject1)  
 - 🌐 [Frontend (Website)](https://github.com/Kaminari-Mizu/Game-Site)  
 - ⚙️ [Backend (API)](https://github.com/Kaminari-Mizu/HorrorArpgBackend)
 
