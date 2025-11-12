@@ -70,7 +70,7 @@ bash
 ```
 git clone https://github.com/Kaminari-Mizu/HorrorArpgBackend
 ```
-Backend Setup
+## Backend Setup
 Open the backend project (HorrorArpgBackend) in Visual Studio or VS Code.
 
 Restore dependencies using the terminal:
@@ -88,7 +88,7 @@ Run the backend (make sure HorrorArpg is selected as the startup project if usin
 ```
 dotnet run --project HorrorArpg
 ```
-Frontend Setup
+## Frontend Setup
 Open the Game-Site project in your editor (e.g. VS Code).
 
 Install dependencies using the terminal:
@@ -103,7 +103,7 @@ npm run dev
 ```
 The site should now be available at the URL printed in your terminal (e.g. http://localhost:5173).
 
-Unity Game Setup
+## Unity Game Setup
 Open Unity Hub, then select Add Project from Disk and choose the cloned Unity project folder.
 
 Once loaded, open the scene:
@@ -112,7 +112,8 @@ Ensure both the backend and frontend are running.
 
 Press the Play button in Unity to start the game.
 
-How to Use the Project
+---
+## How to Use the Project
 Register on the Website
 Create an account on the frontend website.
 
@@ -132,8 +133,8 @@ View Progress Online
 After saving, return to the website and refresh the page.
 
 Your latest game data (scene, position, health, mana) will appear under the Progress section.
-
-Project Purpose
+---
+## Project Purpose
 This project demonstrates how Unity, .NET, and web technologies can work together to deliver a connected gameplay experience.
 
 It was built as part of a Proof of Concept to explore:
@@ -143,11 +144,11 @@ Cross-platform data synchronization between a game and web app
 Backend-driven player authentication and save management
 
 Full-stack architecture using modern development practices
-
-Troubleshooting
+---
+## Troubleshooting
 Database connection fails =	Ensure SQL Server is running and your appsettings.json connection string is correct.
 Unity login not working =	Confirm the backend API is running and the login URL in Unity is correct.
 Website not showing save data =	Check CORS settings in the backend and confirm the frontend uses the correct API base URL.
-
-Author
+---
+## Author
 Author: Jason Saal
