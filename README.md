@@ -114,25 +114,30 @@ Press the Play button in Unity to start the game.
 
 ---
 ## How to Use the Project
--Register on the Website.
--Create an account on the frontend website.
+Register on the Website.
 
--Log in through Unity.
--Use the same credentials as your website account.
+Create an account on the frontend website.
 
--The backend verifies your login details before granting access.
+Log in through Unity.
 
--Play the Game.
--Move, attack, swim, and jump in the environment.
+Use the same credentials as your website account.
 
--Press Esc → Save to create a save file.
+The backend verifies your login details before granting access.
 
--Load or delete saves from the main menu.
+Play the Game.
 
--View Progress Online.
--After saving, return to the website and refresh the page.
+Move, attack, swim, and jump in the environment.
 
--Your latest game data (scene, position, health, mana) will appear under the Progress section.
+Press Esc → Save to create a save file.
+
+Load or delete saves from the main menu.
+
+View Progress Online.
+
+After saving, return to the website and refresh the page.
+
+Your latest game data (scene, position, health, mana) will appear under the Progress section.
+
 ---
 ## Project Purpose
 
@@ -143,9 +148,11 @@ It was built as part of a Proof of Concept to explore:
 3) Full-stack architecture using modern development practices.
 ---
 ## Troubleshooting
+
 Database connection fails =	Ensure SQL Server is running and your appsettings.json connection string is correct.
 Unity login not working =	Confirm the backend API is running and the login URL in Unity is correct.
 Website not showing save data =	Check CORS settings in the backend and confirm the frontend uses the correct API base URL.
+
 ---
 ## Author
 Author: Jason Saal
