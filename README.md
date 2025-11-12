@@ -114,22 +114,22 @@ Press the Play button in Unity to start the game.
 
 ---
 ## How to Use the Project
-Register on the Website
+Register on the Website.
 Create an account on the frontend website.
 
-Log in through Unity
+Log in through Unity.
 Use the same credentials as your website account.
 
 The backend verifies your login details before granting access.
 
-Play the Game
+Play the Game.
 Move, attack, swim, and jump in the environment.
 
 Press Esc → Save to create a save file.
 
 Load or delete saves from the main menu.
 
-View Progress Online
+View Progress Online.
 After saving, return to the website and refresh the page.
 
 Your latest game data (scene, position, health, mana) will appear under the Progress section.
@@ -139,11 +139,11 @@ This project demonstrates how Unity, .NET, and web technologies can work togethe
 
 It was built as part of a Proof of Concept to explore:
 
-Cross-platform data synchronization between a game and web app
+Cross-platform data synchronization between a game and web app.
 
-Backend-driven player authentication and save management
+Backend-driven player authentication and save management.
 
-Full-stack architecture using modern development practices
+Full-stack architecture using modern development practices.
 ---
 ## Troubleshooting
 Database connection fails =	Ensure SQL Server is running and your appsettings.json connection string is correct.
