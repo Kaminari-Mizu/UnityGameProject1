@@ -65,6 +65,10 @@ git clone https://github.com/Kaminari-Mizu/Game-Site
 git clone https://github.com/Kaminari-Mizu/UnityGameProject1
 
 # Backend
+## ⚙️ Backend Setup
+
+### Clone the Backend Repository
+```bash
 git clone https://github.com/Kaminari-Mizu/HorrorArpgBackend
 2️⃣ Backend Setup
 Open the backend project (HorrorArpgBackend) in Visual Studio or VS Code.
@@ -86,7 +90,7 @@ Run the backend (make sure HorrorArpg is selected as the startup project):
 bash
 Copy code
 dotnet run --project HorrorArpg
-3️⃣ Frontend Setup
+💻 Frontend Setup
 Open the Game-Site project in your editor (e.g. VS Code).
 
 Install dependencies:
@@ -101,28 +105,28 @@ Copy code
 npm run dev
 The site should now be available at the URL printed in your terminal (e.g. http://localhost:5173).
 
-4️⃣ Unity Game Setup
-Open Unity Hub, then Add Project from Disk and select the cloned Unity project folder.
+🎮 Unity Game Setup
+Open Unity Hub, then select Add Project from Disk and choose the cloned Unity project folder.
 
-Once loaded, open Assets/Scenes/MainMenu.unity.
+Once loaded, open the scene:
 
-Make sure both the backend and frontend are running.
+swift
+Copy code
+Assets/Scenes/MainMenu.unity
+Ensure both the backend and frontend are running.
 
 Press the Play button in Unity to start the game.
 
 🕹️ How to Use the Project
 Register on the Website
-
 Create an account on the frontend website.
 
 Log in through Unity
+Use the same credentials as your website account.
 
-Use the same account credentials from the main menu.
-
-The backend verifies your login details before allowing access.
+The backend verifies your login details before granting access.
 
 Play the Game
-
 Move, attack, swim, and jump in the environment.
 
 Press Esc → Save to create a save file.
@@ -130,13 +134,13 @@ Press Esc → Save to create a save file.
 Load or delete saves from the main menu.
 
 View Progress Online
+After saving, return to the website and refresh the page.
 
-After saving, go back to the website and refresh the page.
-
-Your latest game data (scene, position, health, mana) will appear under Progress.
+Your latest game data (scene, position, health, mana) will appear under the Progress section.
 
 🧩 Project Purpose
 This project demonstrates how Unity, .NET, and web technologies can work together to deliver a connected gameplay experience.
+
 It was built as part of a Proof of Concept to explore:
 
 Cross-platform data synchronization between a game and web app
@@ -149,7 +153,7 @@ Full-stack architecture using modern development practices
 Issue	Possible Fix
 Database connection fails	Ensure SQL Server is running and your appsettings.json connection string is correct.
 Unity login not working	Confirm the backend API is running and the login URL in Unity is correct.
-Website not showing save data	Check CORS settings in the backend and confirm the frontend is using the right API base URL.
+Website not showing save data	Check CORS settings in the backend and confirm the frontend uses the correct API base URL.
 
 💭 Future Improvements
 Add refresh tokens for persistent authentication
