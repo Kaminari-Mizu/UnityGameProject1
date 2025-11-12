@@ -135,11 +135,12 @@ Press the Play button in Unity to start the game.
 -Your latest game data (scene, position, health, mana) will appear under the Progress section.
 ---
 ## Project Purpose
--This project demonstrates how Unity, .NET, and web technologies can work together to deliver a connected gameplay experience.
--It was built as part of a Proof of Concept to explore:
--1) Cross-platform data synchronization between a game and web app.
--2) Backend-driven player authentication and save management.
--3) Full-stack architecture using modern development practices.
+
+This project demonstrates how Unity, .NET, and web technologies can work together to deliver a connected gameplay experience.
+It was built as part of a Proof of Concept to explore:
+1) Cross-platform data synchronization between a game and web app.
+2) Backend-driven player authentication and save management.
+3) Full-stack architecture using modern development practices.
 ---
 ## Troubleshooting
 Database connection fails =	Ensure SQL Server is running and your appsettings.json connection string is correct.
